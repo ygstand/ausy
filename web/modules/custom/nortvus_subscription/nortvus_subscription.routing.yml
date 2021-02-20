@@ -1,0 +1,7 @@
+nortvus_subscription.subscription_form:
+  path: '/subscription'
+  defaults:
+    _form: '\Drupal\nortvus_subscription\Form\SubscriptionForm'
+    _title: 'SubscriptionForm'
+  requirements:
+    _access: 'TRUE'

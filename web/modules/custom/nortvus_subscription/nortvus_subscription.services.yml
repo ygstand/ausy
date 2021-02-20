@@ -1,7 +1,4 @@
 services:
-  logger.channel.nortvus_subscription:
-    parent: logger.channel_base
-    arguments: ['nortvus_subscription']
   nortvus_subscription.category_manager:
     class: Drupal\nortvus_subscription\CategoryManager
     arguments: ['@entity_type.manager']

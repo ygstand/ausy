@@ -4,11 +4,37 @@ namespace Drupal\nortvus_subscription\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class SubscriptionForm.
  */
 class SubscriptionForm extends FormBase {
+
+  /**
+   * The entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
+   * Category manager service.
+   *
+   * @var \Drupal\nortvus_subscription\TaxonomyManagerInterface
+   */
+  protected $categoryManager;
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    $instance = parent::create($container);
+    $instance->entityTypeManager = $container->get('entity_type.manager');
+    $instance->categoryManager = $container->get('nortvus_subscription.category_manager');
+
+    return $instance;
+  }
 
   /**
    * {@inheritdoc}
@@ -21,12 +47,21 @@ class SubscriptionForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
+    // Getting taxonomy terms of the category vocabulary.
+    $categories_terms = $this->categoryManager->getAllTerms('category');
+    // Contains options to be used in the category form element.
+    $category_options = [];
+    /** @var \Drupal\taxonomy\Entity\Term $categories_term */
+    foreach ($categories_terms as $categories_term) {
+      $category_options[$categories_term->id()] = $categories_term->getName();
+    }
+
     // @todo Clarify if multiple select is required and if so, then modify this.
     $form['category'] = [
       '#type' => 'select',
       '#title' => t('Category'),
       '#default_value' => $this->t('Select category'),
-      '#options' => [0 => 'test1', 1 => 'test2'],
+      '#options' => $category_options,
     ];
     $form['name'] = [
       '#type' => 'textfield',

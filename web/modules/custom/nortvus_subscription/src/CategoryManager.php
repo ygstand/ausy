@@ -17,7 +17,7 @@ class CategoryManager implements TaxonomyManagerInterface {
   protected $entityTypeManager;
 
   /**
-   * Constructs a new \Drupal\epmedia_commerce\JobsPackageProduct object.
+   * Constructs a new \Drupal\nortvus_subscription\CategoryManager object.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.

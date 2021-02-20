@@ -2,3 +2,9 @@ services:
   nortvus_subscription.category_manager:
     class: Drupal\nortvus_subscription\CategoryManager
     arguments: ['@entity_type.manager']
+  nortvus_subscription.json_file_manager:
+    class: Drupal\nortvus_subscription\JsonFileManager
+    arguments: ['@entity_type.manager', '@file_system']
+  nortvus_subscription.subscription:
+    class: Drupal\nortvus_subscription\Subscription
+    arguments: ['@nortvus_subscription.json_file_manager']

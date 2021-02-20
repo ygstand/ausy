@@ -26,12 +26,20 @@ class SubscriptionForm extends FormBase {
   protected $categoryManager;
 
   /**
+   * Subscription service.
+   *
+   * @var \Drupal\nortvus_subscription\SubscriptionInterface
+   */
+  protected $subscription;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
     $instance = parent::create($container);
     $instance->entityTypeManager = $container->get('entity_type.manager');
     $instance->categoryManager = $container->get('nortvus_subscription.category_manager');
+    $instance->subscription = $container->get('nortvus_subscription.subscription');
 
     return $instance;
   }
@@ -94,7 +102,17 @@ class SubscriptionForm extends FormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    // @todo Save the values into json file
+    $values = $form_state->getValues();
+    // Prepares values to create new subscription.
+    $data = [
+      'name' => $values['name'],
+      'mail' => $values['mail'],
+      'category' => $values['category'],
+    ];
+
+    // Creates new subscription.
+    $subscriptions = $this->subscription->createSubscription($data);
+    $this->subscription->save($subscriptions);
   }
 
 }

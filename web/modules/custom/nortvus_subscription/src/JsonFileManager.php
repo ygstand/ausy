@@ -50,7 +50,10 @@ class JsonFileManager implements FileManagerInterface {
    * {@inheritdoc}
    */
   public function getFileContent($file_path) {
-    $file = file_get_contents($file_path);
+    $file = NULL;
+    if (file_exists($file_path)) {
+      $file = file_get_contents($file_path);
+    }
 
     return $file;
   }

@@ -3,6 +3,7 @@
 namespace Drupal\nortvus_subscription\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Datetime\DateFormatterInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Link;
 use Drupal\nortvus_subscription\FileManagerInterface;
@@ -22,6 +23,13 @@ class SubscriptionController extends ControllerBase {
    * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
   protected $entityTypeManager;
+
+  /**
+   * The date formatter service.
+   *
+   * @var \Drupal\Core\Datetime\DateFormatterInterface
+   */
+  protected $dateFormatter;
 
   /**
    * Category manager service.
@@ -49,6 +57,8 @@ class SubscriptionController extends ControllerBase {
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
+   * @param \Drupal\Core\Datetime\DateFormatterInterface $date_formatter
+   *   The date formatter service.
    * @param \Drupal\nortvus_subscription\TaxonomyManagerInterface $category_manager
    *   Category manager service
    * @param \Drupal\nortvus_subscription\FileManagerInterface $json_file_manager
@@ -56,8 +66,9 @@ class SubscriptionController extends ControllerBase {
    * @param \Drupal\nortvus_subscription\SubscriptionInterface $subscription
    *   Subscription service
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, TaxonomyManagerInterface $category_manager, FileManagerInterface $json_file_manager, SubscriptionInterface $subscription) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, DateFormatterInterface $date_formatter, TaxonomyManagerInterface $category_manager, FileManagerInterface $json_file_manager, SubscriptionInterface $subscription) {
     $this->entityTypeManager = $entity_type_manager;
+    $this->dateFormatter = $date_formatter;
     $this->categoryManager = $category_manager;
     $this->jsonFileManager = $json_file_manager;
     $this->subscription = $subscription;
@@ -69,6 +80,7 @@ class SubscriptionController extends ControllerBase {
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('entity_type.manager'),
+      $container->get('date.formatter'),
       $container->get('nortvus_subscription.category_manager'),
       $container->get('nortvus_subscription.json_file_manager'),
       $container->get('nortvus_subscription.subscription')
@@ -88,10 +100,10 @@ class SubscriptionController extends ControllerBase {
    */
   public function subscriptionsPage() {
     $header = [
-      ['data' => $this->t('Id')],
       ['data' => $this->t('Name')],
       ['data' => $this->t('E-mail')],
       ['data' => $this->t('Category')],
+      ['data' => $this->t('Created')],
       ['data' => $this->t('Edit')],
       ['data' => $this->t('Delete')],
     ];
@@ -109,6 +121,8 @@ class SubscriptionController extends ControllerBase {
         if ($category_term instanceof TermInterface)
         $category_name = $category_term->label();
       }
+      // Formatting the subscription created timestamp.
+      $created = $this->dateFormatter->format($subscription['created']);
 
       // Generates edit subscription link.
       $edit_link = Link::createFromRoute(
@@ -139,10 +153,10 @@ class SubscriptionController extends ControllerBase {
 
       $rows[] = [
         'data' => [
-          $subscription_id,
           $subscription['name'],
           $subscription['mail'],
           $category_name,
+          $created,
           $edit_link,
           $delete_link,
         ],

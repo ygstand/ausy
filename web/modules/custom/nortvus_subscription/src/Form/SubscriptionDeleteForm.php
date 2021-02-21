@@ -56,6 +56,16 @@ class SubscriptionDeleteForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state, $subscription_id = NULL) {
+    // Getting the subscription in case the $subscription_id variable
+    // is not empty.
+    if ($subscription_id) {
+      $subscription = $this->subscription->getSubscription($subscription_id);
+      // Prevents showing the subscription edit form in case the subscription
+      // does not exists.
+      if (empty($subscription)) {
+        return [];
+      }
+    }
     $form['subscription_id'] = [
       '#type' => 'hidden',
       '#value' => $subscription_id,

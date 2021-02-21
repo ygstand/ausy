@@ -2,21 +2,21 @@ nortvus_subscription.subscription_form:
   path: '/subscription'
   defaults:
     _form: '\Drupal\nortvus_subscription\Form\SubscriptionForm'
-    _title: 'Subscription Form'
+    _title: 'Subscription'
   requirements:
     _access: 'TRUE'
 nortvus_subscription.subscription_edit_form:
   path: '/subscription/edit/{subscription_id}'
   defaults:
     _form: '\Drupal\nortvus_subscription\Form\SubscriptionForm'
-    _title: 'Subscription Edit Form'
+    _title: 'Edit Subscription'
   requirements:
     _role: 'authenticated'
 nortvus_subscription.subscription_delete_form:
   path: '/subscription/delete/{subscription_id}'
   defaults:
     _form: '\Drupal\nortvus_subscription\Form\SubscriptionDeleteForm'
-    _title: 'Subscription Delete Form'
+    _title: 'Delete Subscription'
   requirements:
     _role: 'authenticated'
 

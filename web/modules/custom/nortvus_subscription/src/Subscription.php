@@ -50,7 +50,7 @@ class Subscription implements SubscriptionInterface {
     $subscription = NULL;
     $subscriptions = $this->getAllSubscriptions();
 
-    if (!empty($subscriptions) && is_array($subscriptions)) {
+    if (is_array($subscriptions) && !empty($subscriptions[$id])) {
       $subscription = $subscriptions[$id];
     }
 

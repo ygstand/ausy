@@ -75,17 +75,29 @@ class SubscriptionForm extends FormBase {
     // is not empty.
     if ($subscription_id) {
       $subscription = $this->subscription->getSubscription($subscription_id);
+      // Prevents showing the subscription edit form in case the subscription
+      // does not exists.
+      if (empty($subscription)) {
+        return [];
+      }
+      // @todo Clarify if multiple select is required and if so, then modify this.
+      $form['category'] = [
+        '#type' => 'hidden',
+        '#value' => $subscription['category'],
+      ];
+    }
+    else {
+      // @todo Clarify if multiple select is required and if so, then modify this.
+      $form['category'] = [
+        '#type' => 'select',
+        '#default_value' => isset($subscription['category']) ? $subscription['category'] : '',
+        '#options' => $category_options,
+        '#empty_option' => $this->t('Select Category'),
+        '#empty_value' => '',
+        '#required' => TRUE,
+      ];
     }
 
-    // @todo Clarify if multiple select is required and if so, then modify this.
-    $form['category'] = [
-      '#type' => 'select',
-      '#default_value' => isset($subscription['category']) ? $subscription['category'] : '',
-      '#options' => $category_options,
-      '#empty_option' => $this->t('Select Category'),
-      '#empty_value' => '',
-      '#required' => TRUE,
-    ];
     $form['name'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Name'),
@@ -125,11 +137,24 @@ class SubscriptionForm extends FormBase {
       'name' => $values['name'],
       'mail' => $values['mail'],
       'category' => $values['category'],
+      'created' => time(),
+      'edited' => time(),
     ];
 
     // Checking if subscription id is passed and if so, updates the existing
     // subscription instead of creating a new one.
     if ($values['subscription_id']) {
+      // Getting the subscription.
+      $subscription = $this->subscription->getSubscription($values['subscription_id']);
+      // Prepares values to update the subscription.
+      $data = [
+        'name' => $values['name'],
+        'mail' => $values['mail'],
+        'category' => $subscription['category'],
+        'created' => $subscription['created'],
+        'edited' => time(),
+      ];
+
       // Updates the existing subscription.
       $subscriptions = $this->subscription->editSubscription($values['subscription_id'], $data);
       // Url of the page the user is to be redirected to. It's assumed that

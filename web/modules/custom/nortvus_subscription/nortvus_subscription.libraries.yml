@@ -1,0 +1,10 @@
+subscriptions:
+  version: 1.x
+  css:
+    component:
+      //cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css: { type: external }
+  js:
+    //cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js: { type: external }
+    js/subscriptions.js: {}
+  dependencies:
+    - core/jquery

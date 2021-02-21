@@ -168,6 +168,15 @@ class SubscriptionController extends ControllerBase {
       '#header' => $header,
       '#rows' => $rows,
       '#empty' => $this->t("No results"),
+      '#attached' => [
+        'library' => [
+          'nortvus_subscription/subscriptions',
+        ],
+      ],
+      '#attributes' => [
+        'id' => 'subscriptions-table',
+        'class' => ['subscriptions-table'],
+      ],
     ];
   }
 

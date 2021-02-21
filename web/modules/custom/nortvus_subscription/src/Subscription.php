@@ -37,6 +37,7 @@ class Subscription implements SubscriptionInterface {
    * Constructs a new \Drupal\nortvus_subscription\Subscription object.
    *
    * @param \Drupal\nortvus_subscription\FileManagerInterface $json_file_manager
+   *   Json file manager service
    */
   public function __construct(FileManagerInterface $json_file_manager) {
     $this->jsonFileManager = $json_file_manager;

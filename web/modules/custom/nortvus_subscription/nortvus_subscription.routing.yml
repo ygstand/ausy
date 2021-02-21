@@ -2,6 +2,28 @@ nortvus_subscription.subscription_form:
   path: '/subscription'
   defaults:
     _form: '\Drupal\nortvus_subscription\Form\SubscriptionForm'
-    _title: 'SubscriptionForm'
+    _title: 'Subscription Form'
   requirements:
     _access: 'TRUE'
+nortvus_subscription.subscription_edit_form:
+  path: '/subscription/edit/{subscription_id}'
+  defaults:
+    _form: '\Drupal\nortvus_subscription\Form\SubscriptionForm'
+    _title: 'Subscription Edit Form'
+  requirements:
+    _role: 'authenticated'
+nortvus_subscription.subscription_delete_form:
+  path: '/subscription/delete/{subscription_id}'
+  defaults:
+    _form: '\Drupal\nortvus_subscription\Form\SubscriptionDeleteForm'
+    _title: 'Subscription Delete Form'
+  requirements:
+    _role: 'authenticated'
+
+nortvus_subscription.subscription_controller_subscriptions_page:
+  path: '/subscriptions'
+  defaults:
+    _controller: '\Drupal\nortvus_subscription\Controller\SubscriptionController::subscriptionsPage'
+    _title: 'Subscriptions'
+  requirements:
+    _role: 'authenticated'

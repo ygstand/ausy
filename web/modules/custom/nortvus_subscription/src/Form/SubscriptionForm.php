@@ -4,6 +4,7 @@ namespace Drupal\nortvus_subscription\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -54,7 +55,7 @@ class SubscriptionForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state) {
+  public function buildForm(array $form, FormStateInterface $form_state, $subscription_id = NULL) {
     // Getting taxonomy terms of the category vocabulary.
     $categories_terms = $this->categoryManager->getAllTerms('category');
     // Contains options to be used in the category form element.
@@ -64,22 +65,38 @@ class SubscriptionForm extends FormBase {
       $category_options[$categories_term->id()] = $categories_term->getName();
     }
 
+    $form['subscription_id'] = [
+      '#type' => 'hidden',
+      '#value' => $subscription_id,
+    ];
+    // Contains a subscription data.
+    $subscription = [];
+    // Getting the subscription in case the $subscription_id variable
+    // is not empty.
+    if ($subscription_id) {
+      $subscription = $this->subscription->getSubscription($subscription_id);
+    }
+
     // @todo Clarify if multiple select is required and if so, then modify this.
     $form['category'] = [
       '#type' => 'select',
-      '#title' => t('Category'),
-      '#default_value' => $this->t('Select category'),
+      '#default_value' => isset($subscription['category']) ? $subscription['category'] : '',
       '#options' => $category_options,
+      '#empty_option' => $this->t('Select Category'),
+      '#empty_value' => '',
+      '#required' => TRUE,
     ];
     $form['name'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Name'),
       '#maxlength' => 255,
+      '#default_value' => isset($subscription['name']) ? $subscription['name'] : '',
       '#required' => TRUE,
     ];
     $form['mail'] = [
       '#type' => 'email',
       '#title' => $this->t('E-mail'),
+      '#default_value' => isset($subscription['mail']) ? $subscription['mail'] : '',
       '#required' => TRUE,
     ];
 
@@ -110,8 +127,27 @@ class SubscriptionForm extends FormBase {
       'category' => $values['category'],
     ];
 
-    // Creates new subscription.
-    $subscriptions = $this->subscription->createSubscription($data);
+    // Checking if subscription id is passed and if so, updates the existing
+    // subscription instead of creating a new one.
+    if ($values['subscription_id']) {
+      // Updates the existing subscription.
+      $subscriptions = $this->subscription->editSubscription($values['subscription_id'], $data);
+      // Url of the page the user is to be redirected to. It's assumed that
+      // if the subscription edit form is open in modal form on the subscriptions
+      // page and once the user has submitted the form they should be
+      // redirected back to the subscriptions page.
+      $url = Url::fromRoute(
+        'nortvus_subscription.subscription_controller_subscriptions_page',
+        ['subscription_id' => $values['subscription_id']]
+      );
+      $form_state->setRedirectUrl($url);
+
+    }
+    else {
+      // Creates new subscription.
+      $subscriptions = $this->subscription->createSubscription($data);
+    }
+    // Saves changes.
     $this->subscription->save($subscriptions);
   }
 

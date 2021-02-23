@@ -19,7 +19,11 @@
         "drupal/console": "~1.0",
         "drupal/core-composer-scaffold": "^9.1",
         "drupal/core-project-message": "^9.1",
-        "drupal/core-recommended": "^9.1"
+        "drupal/core-recommended": "^9.1",
+        "drupal/admin_toolbar": "^3.0",
+        "drupal/devel": "^4.0",
+        "drupal/hook_event_dispatcher": "^2.2",
+        "drupal/paragraphs": "^1.12"
     },
     "conflict": {
         "drupal/drupal": "*"

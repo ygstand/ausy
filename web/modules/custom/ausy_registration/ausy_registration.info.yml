@@ -1,0 +1,5 @@
+name: 'Ausy registration'
+type: module
+description: 'Ausy registration module description'
+core_version_requirement: ^8.8 || ^9
+package: 'Custom'

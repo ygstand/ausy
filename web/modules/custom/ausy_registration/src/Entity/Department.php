@@ -36,7 +36,7 @@ use Drupal\Core\Config\Entity\ConfigEntityBase;
  *   },
  *   links = {
  *     "canonical" = "/admin/structure/department/{department}",
- *     "add-form" = "/admin/structure/department/add",
+ *     "add-form" = "/admin/config/add-department",
  *     "edit-form" = "/admin/structure/department/{department}/edit",
  *     "delete-form" = "/admin/structure/department/{department}/delete",
  *     "collection" = "/admin/structure/department"

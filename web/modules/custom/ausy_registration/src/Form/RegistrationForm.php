@@ -53,6 +53,16 @@ class RegistrationForm extends FormBase {
       '#default_value' => '',
       '#required' => TRUE,
     ];
+    $form['one_plus'] = [
+      '#type' => 'radios',
+      '#title' => $this->t('One plus'),
+      '#maxlength' => 255,
+      '#options' => [
+        1 => $this->t('Yes'),
+        0 => $this->t('No'),
+      ],
+      '#required' => TRUE,
+    ];
     $form['amount_of_kids'] = [
       '#type' => 'number',
       '#title' => $this->t('Amount of kids'),

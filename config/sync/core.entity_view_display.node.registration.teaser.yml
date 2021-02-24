@@ -7,6 +7,7 @@ dependencies:
     - field.field.node.registration.field_amount_of_kids
     - field.field.node.registration.field_amount_of_vegetarians
     - field.field.node.registration.field_email
+    - field.field.node.registration.field_one_plus
     - node.type.registration
   module:
     - user
@@ -24,3 +25,4 @@ hidden:
   field_amount_of_kids: true
   field_amount_of_vegetarians: true
   field_email: true
+  field_one_plus: true

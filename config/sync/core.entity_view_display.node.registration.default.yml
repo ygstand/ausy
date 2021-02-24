@@ -6,6 +6,7 @@ dependencies:
     - field.field.node.registration.field_amount_of_kids
     - field.field.node.registration.field_amount_of_vegetarians
     - field.field.node.registration.field_email
+    - field.field.node.registration.field_one_plus
     - node.type.registration
   module:
     - user
@@ -38,6 +39,16 @@ content:
     settings: {  }
     third_party_settings: {  }
     type: basic_string
+    region: content
+  field_one_plus:
+    weight: 105
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    type: boolean
     region: content
   links:
     weight: 100

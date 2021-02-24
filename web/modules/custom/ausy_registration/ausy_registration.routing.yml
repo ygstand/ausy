@@ -1,5 +1,5 @@
 ausy_registration.registration_form:
-  path: '/registration'
+  path: '/registration/{department}'
   defaults:
     _form: '\Drupal\ausy_registration\Form\RegistrationForm'
     _title: 'RegistrationForm'

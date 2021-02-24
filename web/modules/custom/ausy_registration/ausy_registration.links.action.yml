@@ -1,0 +1,5 @@
+entity.department.add_form:
+  route_name: entity.department.add_form
+  title: 'Add Department'
+  appears_on:
+    - entity.department.collection

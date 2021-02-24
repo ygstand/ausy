@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.field.node.registration.field_amount_of_kids
     - field.field.node.registration.field_amount_of_vegetarians
+    - field.field.node.registration.field_department
     - field.field.node.registration.field_email
     - field.field.node.registration.field_one_plus
     - node.type.registration
@@ -34,6 +35,14 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: number
+    region: content
+  field_department:
+    weight: 126
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
     region: content
   field_email:
     weight: 124

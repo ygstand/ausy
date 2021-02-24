@@ -1,0 +1,19 @@
+uuid: df2f9264-a788-48b1-8a04-6e3d811561ff
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_department
+    - node.type.registration
+id: node.registration.field_department
+field_name: field_department
+entity_type: node
+bundle: registration
+label: Department
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

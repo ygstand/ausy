@@ -1,0 +1,6 @@
+uuid: ac32ba60-82ba-4ca1-8580-15d828464692
+langcode: en
+status: true
+dependencies: {  }
+id: finance
+label: Finance

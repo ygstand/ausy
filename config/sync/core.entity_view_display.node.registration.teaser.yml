@@ -6,6 +6,7 @@ dependencies:
     - core.entity_view_mode.node.teaser
     - field.field.node.registration.field_amount_of_kids
     - field.field.node.registration.field_amount_of_vegetarians
+    - field.field.node.registration.field_department
     - field.field.node.registration.field_email
     - field.field.node.registration.field_one_plus
     - node.type.registration
@@ -24,5 +25,6 @@ content:
 hidden:
   field_amount_of_kids: true
   field_amount_of_vegetarians: true
+  field_department: true
   field_email: true
   field_one_plus: true

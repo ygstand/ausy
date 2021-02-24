@@ -1,0 +1,8 @@
+
+# Department menu items definition
+entity.department.collection:
+  title: 'Department'
+  route_name: entity.department.collection
+  description: 'List Department (bundles)'
+  parent: system.admin_structure
+  weight: 99

@@ -45,7 +45,15 @@ class RegistrationForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state) {
+  public function buildForm(array $form, FormStateInterface $form_state, $department = NULL) {
+    /** @var \Drupal\ausy_registration\Entity\DepartmentInterface $department */
+    if (!empty($department)) {
+      $form['department'] = [
+        '#type' => 'hidden',
+        '#value' => $department->id(),
+      ];
+    }
+
     $form['name'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Name of the employee'),
@@ -133,9 +141,29 @@ class RegistrationForm extends FormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    // Display result.
-    foreach ($form_state->getValues() as $key => $value) {
-      \Drupal::messenger()->addMessage($key . ': ' . ($key === 'text_format'?$value['value']:$value));
+    $values = $form_state->getValues();
+    // Prevents creating the registration in case the department
+    // is not specified.
+    if (!empty($values['department'])) {
+      /** @var \Drupal\Core\Entity\EntityStorageInterface $node_storage */
+      $node_storage = $this->entityTypeManager->getStorage('node');
+      /** @var \Drupal\node\NodeInterface $node */
+      $node = $node_storage->create([
+        'title' => $values['name'],
+        'type' => 'registration',
+        'field_one_plus' => $values['one_plus'],
+        'field_amount_of_kids' => $values['amount_of_kids'],
+        'field_amount_of_vegetarians' => $values['amount_of_vegetarians'],
+        'field_email' => $values['email'],
+        'field_department' => $values['department'],
+      ]);
+      $node->save();
+      // @todo Use DI.
+      \Drupal::messenger()->addMessage($this->t('Registration is complete'));
+    }
+    else {
+      // @todo Use DI.
+      \Drupal::messenger()->addWarning($this->t('Registration is not complete as the department is not specified'));
     }
   }
 

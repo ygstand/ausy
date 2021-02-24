@@ -1,0 +1,20 @@
+uuid: 81d8b4c2-3241-4858-8ad8-1f80b6496678
+langcode: en
+status: true
+dependencies:
+  module:
+    - ausy_registration
+  theme:
+    - bartik
+id: registrationcountblock
+theme: bartik
+region: content
+weight: -3
+provider: null
+plugin: registration_count_block
+settings:
+  id: registration_count_block
+  label: 'Registration count block'
+  provider: ausy_registration
+  label_display: '0'
+visibility: {  }

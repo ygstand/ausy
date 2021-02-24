@@ -159,6 +159,10 @@ class RegistrationForm extends FormBase {
       ]);
       $node->save();
       // @todo Use DI.
+      // Invalidates cache tags in order to update the particular blocks.
+      \Drupal::service('cache_tags.invalidator')
+        ->invalidateTags(['registration-nodes-list']);
+      // @todo Use DI.
       \Drupal::messenger()->addMessage($this->t('Registration is complete'));
     }
     else {

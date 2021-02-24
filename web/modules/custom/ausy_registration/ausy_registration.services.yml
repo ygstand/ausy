@@ -1,0 +1,4 @@
+services:
+  ausy_registration.registration_manager:
+    class: Drupal\ausy_registration\RegistrationManager
+    arguments: ['@entity_type.manager']

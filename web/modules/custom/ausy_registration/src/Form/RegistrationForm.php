@@ -94,8 +94,37 @@ class RegistrationForm extends FormBase {
    * {@inheritdoc}
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
-    foreach ($form_state->getValues() as $key => $value) {
-      // @TODO: Validate fields.
+    $values = $form_state->getValues();
+
+    // @todo Use Dependency Injection.
+    if ($values['email'] != '') {
+      if (!\Drupal::service('email.validator')->isValid($values['email'])) {
+        $form_state->setErrorByName('email', t('The email address %mail is not valid.', ['%mail' => $values['email']]));
+      }
+      // Checking if there's already a referenced registration to the given
+      // email address.
+      else {
+        // @todo Create a service to provide this feature.
+        $node_storage = $this->entityTypeManager->getStorage('node');
+        $registrations_array = $node_storage->loadByProperties([
+          'type' => 'registration',
+          'field_email' => $values['email'],
+        ]);
+        if (!empty($registrations_array)) {
+          $form_state->setErrorByName('email', t('You are not able to register twice with the given email'));
+        }
+      }
+    }
+    if (!empty($values['amount_of_vegetarians'])) {
+      // Getting the total amount of people.
+      // Total amount of people can not be less the 1.
+      $total_amount_of_people = 1 + $values['amount_of_kids'];
+      if ($values['one_plus']) {
+        $total_amount_of_people += 1;
+      }
+      if ($values['amount_of_vegetarians'] > $total_amount_of_people) {
+        $form_state->setErrorByName('amount_of_vegetarians', t('Amount of vegetarians can not be higher than the total amount of people'));
+      }
     }
     parent::validateForm($form, $form_state);
   }

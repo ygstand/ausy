@@ -1,0 +1,10 @@
+uuid: 4c70eebb-7538-4f86-820d-20338976c119
+langcode: en
+status: true
+dependencies: {  }
+id: department_manager
+label: 'Department manager'
+weight: 3
+is_admin: null
+permissions:
+  - 'manage event registrations'

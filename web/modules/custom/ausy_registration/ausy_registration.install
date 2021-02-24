@@ -1,0 +1,21 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the Ausy registration module.
+ */
+
+use Drupal\user\Entity\Role;
+
+/**
+ * Implements hook_install().
+ */
+function ausy_registration_install() {
+  // Creates the 'Department manager' role.
+  $role_data = [
+    'id' => 'department_manager',
+    'label' => 'Department manager'
+  ];
+  $role = Role::create($role_data);
+  $role->save();
+}

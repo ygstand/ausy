@@ -5,3 +5,7 @@ ausy_registration.registration_form:
     _title: 'RegistrationForm'
   requirements:
     _access: 'TRUE'
+  options:
+    parameters:
+      department:
+        type: 'entity:department'
